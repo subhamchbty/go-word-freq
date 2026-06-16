@@ -73,7 +73,7 @@ func mapToSlice(freq map[string]int, top int) []WordCount {
 		return slice[i].Count > slice[j].Count
 	})
 
-	return slice[:top]
+	return slice[:min(top, len(slice))]
 }
 
 func printResults(counts []WordCount) {
