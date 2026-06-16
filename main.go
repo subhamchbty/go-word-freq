@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"sort"
 	"strings"
 )
@@ -12,7 +13,13 @@ type WordCount struct {
 }
 
 func main() {
-	freq := countWords("the quick brown fox jumps over the lazy dog the fox")
+	data, err := readFile("sample.txt")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	freq := countWords(data)
 
 	printResults(mapToSlice(freq))
 }
@@ -63,4 +70,13 @@ func printResults(counts []WordCount) {
 	for _, freq := range counts {
 		fmt.Printf("%-15s %15d\n", freq.Word, freq.Count)
 	}
+}
+
+func readFile(path string) (string, error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return "", err
+	}
+
+	return string(data), nil
 }
