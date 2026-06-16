@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"sort"
 	"strings"
@@ -18,17 +19,21 @@ func main() {
 
 	flag.Parse()
 
-	fmt.Println(*top)
+	filePath := flag.Arg(0)
+	if filePath == "" {
+		log.Fatal("Error: File path is required")
+		os.Exit(1)
+	}
 
-	data, err := readFile("sample.txt")
+	data, err := readFile(filePath)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 
 	freq := countWords(data)
-
 	printResults(mapToSlice(freq, *top))
+
 }
 
 func countWords(text string) map[string]int {
