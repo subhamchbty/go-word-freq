@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 	"sort"
@@ -13,6 +14,12 @@ type WordCount struct {
 }
 
 func main() {
+	top := flag.Int("top", 10, "Specify top-N integer. Default is 10.")
+
+	flag.Parse()
+
+	fmt.Println(*top)
+
 	data, err := readFile("sample.txt")
 	if err != nil {
 		fmt.Println(err)
@@ -21,7 +28,7 @@ func main() {
 
 	freq := countWords(data)
 
-	printResults(mapToSlice(freq))
+	printResults(mapToSlice(freq, *top))
 }
 
 func countWords(text string) map[string]int {
@@ -44,7 +51,7 @@ func countWords(text string) map[string]int {
 	return freq
 }
 
-func mapToSlice(freq map[string]int) []WordCount {
+func mapToSlice(freq map[string]int, top int) []WordCount {
 	slice := []WordCount{}
 
 	for key, value := range freq {
@@ -61,7 +68,7 @@ func mapToSlice(freq map[string]int) []WordCount {
 		return slice[i].Count > slice[j].Count
 	})
 
-	return slice
+	return slice[:top]
 }
 
 func printResults(counts []WordCount) {
