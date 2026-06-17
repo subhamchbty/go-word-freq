@@ -14,8 +14,21 @@ type WordCount struct {
 	Count int
 }
 
+var stopWords = map[string]bool{
+	"the": true,
+	"i":   true,
+	"to":  true,
+	"a":   true,
+	"for": true,
+	"is":  true,
+	"in":  true,
+	"and": true,
+	"at":  true,
+}
+
 func main() {
 	top := flag.Int("top", 10, "Specify top-N integer. Default is 10.")
+	stop := flag.Bool("stop", false, "Specify if common english words are stopped from counting. Default is false.")
 
 	flag.Parse()
 
@@ -27,16 +40,16 @@ func main() {
 
 	data, err := readFile(filePath)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal("Error: ", err)
 		os.Exit(1)
 	}
 
-	freq := countWords(data)
+	freq := countWords(data, *stop)
 	printResults(mapToSlice(freq, *top))
 
 }
 
-func countWords(text string) map[string]int {
+func countWords(text string, stop bool) map[string]int {
 	freq := map[string]int{}
 
 	lowered := strings.ToLower(text)
@@ -48,9 +61,11 @@ func countWords(text string) map[string]int {
 			continue
 		}
 
-		count := freq[word]
+		if stop && stopWords[word] == true {
+			continue
+		}
 
-		freq[word] = count + 1
+		freq[word] = freq[word] + 1
 	}
 
 	return freq
