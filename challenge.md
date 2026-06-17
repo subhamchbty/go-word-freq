@@ -219,8 +219,8 @@ Add a third column to your table showing each word's count as a percentage of to
 - [x] Results are sorted: descending count, then alphabetically on ties
 - [x] `readFile` returns an error; `main` handles it
 - [x] `-top` flag works and never panics on short word lists
-- [ ] `go vet ./...` reports no issues
-- [ ] `gofmt -l .` reports no unformatted files
+- [x] `go vet ./...` reports no issues
+- [x] `gofmt -l .` reports no unformatted files
 
 ---
 
