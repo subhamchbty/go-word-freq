@@ -221,6 +221,11 @@ Add a third column to your table showing each word's count as a percentage of to
 - [x] `-top` flag works and never panics on short word lists
 - [x] `go vet ./...` reports no issues
 - [x] `gofmt -l .` reports no unformatted files
+- [x] Optional: exclude stop words
+- [ ] Optional: count from stdin
+- [x] Optional: output as JSON
+- [ ] Optional: multiple file support
+- [ ] Optional: percentage column or JSON field
 
 ---
 

@@ -65,7 +65,7 @@ This was my first real Go project beyond hello world. Some things that clicked f
 
 ## What's still rough
 
-- The stop words list is tiny (only 9 words). A real implementation would have hundreds.
+- The stop words list is tiny. A real implementation would have hundreds.
 - No stdin support yet — you have to pass a file path.
 - Tests would be good to add, especially for `countWords` since the normalisation logic has a few edge cases.
 
