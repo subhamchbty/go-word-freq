@@ -25,6 +25,8 @@ var stopWords = map[string]bool{
 	"in":  true,
 	"and": true,
 	"at":  true,
+	"it":  true,
+	"of":  true,
 }
 
 func main() {
@@ -58,7 +60,7 @@ func countWords(text string, stop bool) map[string]int {
 	words := strings.FieldsSeq(lowered)
 
 	for value := range words {
-		word := strings.Trim(value, ".,!?;:\"'()-={}[]")
+		word := strings.Trim(value, ".,!?;:\"'()-={}[]|#`—")
 		if word == "" {
 			continue
 		}
