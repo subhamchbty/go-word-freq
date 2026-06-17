@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
@@ -10,8 +11,8 @@ import (
 )
 
 type WordCount struct {
-	Word  string
-	Count int
+	Word  string `json:"word"`
+	Count int    `json:"count"`
 }
 
 var stopWords = map[string]bool{
@@ -29,6 +30,7 @@ var stopWords = map[string]bool{
 func main() {
 	top := flag.Int("top", 10, "Specify top-N integer. Default is 10.")
 	stop := flag.Bool("stop", false, "Specify if common english words are stopped from counting. Default is false.")
+	jsonOut := flag.Bool("json", false, "Specify if output should be in JSON format. Default is false.")
 
 	flag.Parse()
 
@@ -45,7 +47,7 @@ func main() {
 	}
 
 	freq := countWords(data, *stop)
-	printResults(mapToSlice(freq, *top))
+	printResults(mapToSlice(freq, *top), *jsonOut)
 
 }
 
@@ -91,11 +93,21 @@ func mapToSlice(freq map[string]int, top int) []WordCount {
 	return slice[:min(top, len(slice))]
 }
 
-func printResults(counts []WordCount) {
-	fmt.Printf("%-15s %15s\n", "WORD", "COUNT")
-	fmt.Printf("-------------------------------\n")
-	for _, freq := range counts {
-		fmt.Printf("%-15s %15d\n", freq.Word, freq.Count)
+func printResults(counts []WordCount, jsonOut bool) {
+	if !jsonOut {
+		fmt.Printf("%-15s %15s\n", "WORD", "COUNT")
+		fmt.Printf("-------------------------------\n")
+		for _, freq := range counts {
+			fmt.Printf("%-15s %15d\n", freq.Word, freq.Count)
+		}
+	} else {
+		jsonData, err := json.Marshal(counts)
+		// jsonData, err := json.MarshalIndent(counts, "", "    ")
+		if err != nil {
+			log.Fatal("Error: cannot format to json")
+		}
+
+		fmt.Println(string(jsonData))
 	}
 }
 
