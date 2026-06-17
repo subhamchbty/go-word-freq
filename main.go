@@ -58,7 +58,7 @@ func countWords(text string, stop bool) map[string]int {
 	words := strings.FieldsSeq(lowered)
 
 	for value := range words {
-		word := strings.Trim(value, ".,!?;:\"'()-")
+		word := strings.Trim(value, ".,!?;:\"'()-={}[]")
 		if word == "" {
 			continue
 		}
